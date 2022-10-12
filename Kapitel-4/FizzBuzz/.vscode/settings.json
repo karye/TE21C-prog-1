@@ -1,0 +1,12 @@
+{
+    "workbench.colorCustomizations": {
+        "[Sublime Monokai]": {
+            "editor.selectionHighlightBackground": "#ff000054",
+            "editor.background": "#2b2b2b",
+            "tab.inactiveForeground": "#888888"
+        },
+        "activityBar.background": "#2E2F0D",
+        "titleBar.activeBackground": "#404213",
+        "titleBar.activeForeground": "#FAFBEF"
+    }
+}
