@@ -10,7 +10,7 @@ namespace Bilder
             Console.WriteLine("Hello bilder!");
 
             // Starta Raylibs grafikmotor
-            Raylib.InitWindow(800, 600, "Mitt första Rayllib-fönster");
+            Raylib.InitWindow(800, 600, "Mitt första Raylib-fönster");
 
             // Bestäm skärmuppdatering
             Raylib.SetTargetFPS(30);
