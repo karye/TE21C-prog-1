@@ -29,6 +29,13 @@ namespace TopDown_2
             Texture2D texturUfo = Raylib.LoadTexture(@"./resurser/ufo.png");
             // Hitbox
             Rectangle ufo = new Rectangle(300, 300, 32, 32);
+
+            // Ladda in bakgrundsbilderna
+            Texture2D texturBg1 = Raylib.LoadTexture(@"./resurser/bg1.png");
+            Texture2D texturBg2 = Raylib.LoadTexture(@"./resurser/bg2.png");
+
+            // Variabler för scener
+            string scen = "Scen 1";
             
             // Animationsloopen
             while (!Raylib.WindowShouldClose())
@@ -38,6 +45,16 @@ namespace TopDown_2
 
                 // Töm ritytan
                 Raylib.ClearBackground(Color.BEIGE);
+
+                // Bestäm vilken bakgrund som skall synas
+                if (scen == "Scen 1")
+                {
+                    Raylib.DrawTexture(texturBg1, 0, 0, Color.WHITE);
+                }
+                else if (scen == "Scen 2")
+                {
+                    Raylib.DrawTexture(texturBg2, 0, 0, Color.WHITE);
+                }
 
                 Raylib.DrawTexture(texturLandare, (int)landare.x, (int)landare.y, Color.WHITE);
                 Raylib.DrawTexture(texturUfo, (int)ufo.x, (int)ufo.y, Color.WHITE);
@@ -70,8 +87,7 @@ namespace TopDown_2
                 // Kolliderar ufon med landaren?
                 if (Raylib.CheckCollisionRecs(ufo, landare))
                 {
-                    Raylib.DrawRectangle(0, 0, 800, 600, Color.RED);
-                    Raylib.DrawText("Träff", 500, 50, 24, Color.GOLD);
+                    scen = "Scen 2";
 
                     // Starta ljudet en gång!
                     if (!Raylib.IsSoundPlaying(explosion))
