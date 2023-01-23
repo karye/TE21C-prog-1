@@ -5,6 +5,10 @@ namespace TopDown_3
 {
     class Program
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="args"></param>
         static void Main(string[] args)
         {
             // Variabler
@@ -21,6 +25,8 @@ namespace TopDown_3
             // Skapa en poängrektangel
             Rectangle poängRektangel = new Rectangle(400, 300, 50, 50);
             
+            // Animationsloop
+            // Här ritas grafiken ut i 60 fps
             while (!Raylib.WindowShouldClose())
             {
                 Raylib.BeginDrawing();
