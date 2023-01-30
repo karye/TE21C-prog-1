@@ -27,6 +27,13 @@ namespace TopDown_4
             // Figurens bränsle
             int bränsle = 100;
 
+            // Figurens hastighet
+            float hastighet = 0;
+
+            // Gravitation
+            float gravitation = 0.01f;
+
+            // Animationsloopen
             while (!Raylib.WindowShouldClose())
             {
                 Raylib.BeginDrawing();
@@ -37,6 +44,7 @@ namespace TopDown_4
                 // Rita ut koordinaterna
                 Raylib.DrawText("x=" + hitboxLander.x, 450, 20, 18, Color.WHITE);
                 Raylib.DrawText("y=" + hitboxLander.y, 450, 40, 18, Color.WHITE);
+
                 // Rita ut bränslemängd
                 if (bränsle > 10)
                 {
@@ -60,6 +68,8 @@ namespace TopDown_4
                 {
                     hitboxLander.y += 2;
                 }
+
+                // Gasa uppåt
                 if (Raylib.IsKeyDown(KeyboardKey.KEY_UP))
                 {
                     if (bränsle == 0)
@@ -68,8 +78,11 @@ namespace TopDown_4
                     }
                     else
                     {
-                        hitboxLander.y -= 2;
+                        hastighet -= 0.05f;
                         bränsle -= 1;
+                        Raylib.DrawRectangle((int)hitboxLander.x + 30, (int)hitboxLander.y + 50, 6, 60, Color.YELLOW);
+                        Raylib.DrawRectangle((int)hitboxLander.x + 29, (int)hitboxLander.y + 50, 8, 30, Color.ORANGE);
+                        Raylib.DrawRectangle((int)hitboxLander.x + 28, (int)hitboxLander.y + 50, 10, 10, Color.RED);
                     }
                 }
 
@@ -93,10 +106,25 @@ namespace TopDown_4
                 if (hitboxLander.y >= 480 - texturLander.height)
                 {
                     hitboxLander.y = 480 - texturLander.height;
+
+                    // Har landaren kraschat?
+                    if (hastighet > 0.01f)
+                    {
+                        Raylib.DrawRectangle(0, 0, 512, 480, Color.RED);
+                        Raylib.DrawText("Game Over", 100, 100, 50, Color.WHITE);
+                    }
                 }
 
-                // Gravitation
-                hitboxLander.y += 1;
+                // När jobbar gravitationen?
+                if (hitboxLander.y < 480 - texturLander.height)
+                {
+                    // Gravitation
+                    hastighet += gravitation;   // 0.01
+                    hitboxLander.y += hastighet;
+                }
+
+                // Skriv ut hastigheten
+                Raylib.DrawText("v=" + hastighet, 450, 80, 18, Color.WHITE);
 
                 Raylib.EndDrawing();
             }
