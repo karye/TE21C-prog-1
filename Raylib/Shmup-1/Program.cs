@@ -5,26 +5,38 @@ namespace Shmup_1
 {
     class Program
     {
-        // Skapa alla variabler (globala)
+        /*  Skapa alla variabler (globala) */
+        // Skeppets variabler
         static Texture2D skeppTextur;
         static Rectangle skeppRektangel;
         static bool skjuter = false;
+
+        // Skottets variabler
+        static Texture2D texturSkott;
+        static Rectangle skottRektangel;
+        static Sound skottLjud;
+        static bool synligt = false;
 
         static void Main(string[] args)
         {
             Console.WriteLine("Hello SHMUP!");
             Raylib.InitWindow(800, 600, "SHMUP");
+            Raylib.InitAudioDevice();
             Raylib.SetTargetFPS(60);
 
             // Skapa skeppet
-            skeppTextur = Raylib.LoadTexture(@"resurser/space-invaders.png");
+            skeppTextur = Raylib.LoadTexture(@"./resurser/space-invaders.png");
             skeppRektangel = new Rectangle(400, 500, skeppTextur.width, skeppTextur.height);
+
+            // Skapa skott
+            skottLjud = Raylib.LoadSound(@"./resurser/laser.wav");
 
             // Animationsloopen
             while (!Raylib.WindowShouldClose())
             {
                 Input();
-                UppdateraSkepp();
+                UppdateraSkepp();    
+                UppdateraSkott();
                 RitaSpel();
             }
         }
@@ -39,10 +51,7 @@ namespace Shmup_1
             Raylib.DrawTexture(skeppTextur, (int)skeppRektangel.x, (int)skeppRektangel.y, Color.WHITE);
 
             // Rita ut skottet när spelare skjuter
-            if (skjuter)
-            {
-                Raylib.DrawRectangle((int)skeppRektangel.x + 30, (int)skeppRektangel.y - 55, 3, 50, Color.YELLOW);
-            }
+            Raylib.DrawRectangle((int)skottRektangel.x + 30, (int)skottRektangel.y - 55, 3, 50, Color.YELLOW);
 
             Raylib.EndDrawing();
         }
@@ -76,9 +85,14 @@ namespace Shmup_1
 
             // Lyssna på mellanslag (för att skjuta)
             skjuter = false;
-            if (Raylib.IsKeyDown(KeyboardKey.KEY_SPACE))
+            if (Raylib.IsKeyDown(KeyboardKey.KEY_SPACE) && !synligt)
             {
                 skjuter = true;
+                skottRektangel.x = skeppRektangel.x;
+                skottRektangel.y = skeppRektangel.y;
+
+                // Spela upp ljudet
+                Raylib.PlaySound(skottLjud);
             }
         }
 
@@ -93,7 +107,17 @@ namespace Shmup_1
         // Få skottet att flyga iväg
         static void UppdateraSkott()
         {
-            
+            skottRektangel.y -= 20;
+
+            // Syns skottet på fönstret?
+            if (skottRektangel.y > 0)
+            {
+                synligt = true;
+            }
+            else
+            {
+                synligt = false;
+            }
         }
     }
 }
