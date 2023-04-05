@@ -53,6 +53,12 @@ namespace Shmup_1
             // Rita ut skottet när spelare skjuter
             Raylib.DrawRectangle((int)skottRektangel.x + 30, (int)skottRektangel.y - 55, 3, 50, Color.YELLOW);
 
+            // När vi skjuter rita en "muzzle-flash"
+            if (skjuter)
+            {
+                Raylib.DrawCircle((int)skeppRektangel.x + 32, (int)skeppRektangel.y - 10, 15, Color.YELLOW);
+            }
+
             Raylib.EndDrawing();
         }
 
